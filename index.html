@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#201410">
+<meta name="referrer" content="no-referrer">
+<title>Magic Chat — 해리 포터 챗봇</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 1) API 키 입력 -->
+  <section id="setup" class="screen">
+    <div class="setup-inner">
+      <div class="logo">🪄</div>
+      <h1>Magic Chat</h1>
+      <p class="tagline">해리 포터의 세계와 카카오톡처럼 대화해요</p>
+
+      <form id="key-form" autocomplete="off">
+        <label for="key-input">Groq API 키</label>
+        <div class="key-field">
+          <input id="key-input" type="password" placeholder="gsk_..." autocomplete="new-password"
+                 autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore>
+          <button type="button" id="key-toggle" aria-label="키 보기/숨기기">👁</button>
+        </div>
+        <label class="check"><input type="checkbox" id="key-remember"> 이 기기에 키 기억하기 (끄면 탭을 닫을 때 삭제)</label>
+        <button class="primary" id="key-submit" type="submit">시작하기</button>
+        <p class="form-error" id="key-error" role="alert"></p>
+      </form>
+
+      <ul class="safety">
+        <li>키는 <b>이 브라우저 → Groq 서버</b>로만 전송돼요. 다른 곳엔 저장·전송되지 않아요.</li>
+        <li>공용 PC에서는 '기억하기'를 끄고, 사용 후 설정에서 키를 삭제하세요.</li>
+        <li>채팅 화면이나 공유 링크에 키를 붙여넣지 마세요.</li>
+      </ul>
+      <a class="getkey" href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Groq 콘솔에서 무료 키 발급받기 ↗</a>
+    </div>
+  </section>
+
+  <!-- 2) 메인 (친구 / 채팅 / 설정) -->
+  <section id="main" class="screen hidden">
+    <header class="topbar"><h2 id="main-title">친구</h2></header>
+    <div class="tabs">
+      <div id="tab-friends" class="tab"></div>
+      <div id="tab-chats" class="tab hidden"></div>
+      <div id="tab-settings" class="tab hidden"></div>
+    </div>
+    <nav class="tabbar">
+      <button data-tab="friends" class="on"><span>👤</span>친구</button>
+      <button data-tab="chats"><span>💬</span>채팅<i id="badge" class="badge hidden"></i></button>
+      <button data-tab="settings"><span>⚙️</span>설정</button>
+    </nav>
+  </section>
+
+  <!-- 3) 채팅방 -->
+  <section id="chat" class="screen hidden">
+    <header class="topbar chat-top">
+      <button id="back" class="icon" aria-label="뒤로">‹</button>
+      <div class="chat-title"><b id="chat-name"></b><small id="chat-sub"></small></div>
+      <button id="menu-btn" class="icon" aria-label="메뉴">⋮</button>
+      <div id="menu" class="menu hidden">
+        <div id="menu-themes"></div>
+        <button id="m-clear">대화 내용 지우기</button>
+        <button id="m-settings">설정으로 이동</button>
+      </div>
+    </header>
+    <div id="messages" class="messages"></div>
+    <div id="chips" class="chips"></div>
+    <form id="composer" class="composer">
+      <textarea id="input" rows="1" placeholder="메시지 입력" enterkeyhint="send"></textarea>
+      <button id="send" type="submit" aria-label="전송">↑</button>
+    </form>
+  </section>
+
+  <div id="toast" class="toast hidden"></div>
+</div>
+<script src="characters.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
