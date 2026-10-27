@@ -6,6 +6,17 @@
   --text: #191919;
   --sub: #8a8a8a;
   --line: #ececec;
+  --bg: #fff;
+  --surface2: #fafafa;
+  --btn: #f0f0f0;
+  --press: #f3f3f3;
+  --border: #ddd;
+  --chip: rgba(255,255,255,.9);
+  --chip-t: #191919;
+}
+:root[data-mode=dark] {
+  --text: #eceff3; --sub: #8e99a6; --line: #28313a; --bg: #11171d; --surface2: #1a232b; --btn: #222c36; --press: #1a232b;
+  --border: #33404c; --chip: rgba(255,255,255,.14); --chip-t: #eceff3; --chat-bg: #1b2631; color-scheme: dark;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; }
@@ -20,7 +31,7 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .hidden { display: none !important; }
 
 #app {
-  position: relative; overflow: hidden; background: #fff;
+  position: relative; overflow: hidden; background: var(--bg); color: var(--text);
   width: 100%; height: 100dvh;
 }
 @media (min-width: 500px) {
@@ -49,11 +60,12 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .getkey { font-size: 13px; color: #6b3f12; font-weight: 600; }
 
 /* ---------- top bar / tabs ---------- */
-.topbar { position: relative; flex: none; height: 54px; padding: 0 18px; display: flex; align-items: center; background: #fff; }
-.topbar h2 { margin: 0; font-size: 20px; font-weight: 700; }
+.topbar { position: relative; flex: none; height: 54px; padding: 0 18px; display: flex; align-items: center; background: var(--bg); }
+.topbar h2 { margin: 0; flex: 1; font-size: 20px; font-weight: 700; }
+#mode-btn { font-size: 20px; margin-right: -8px; }
 .tabs { flex: 1; min-height: 0; position: relative; }
 .tab { position: absolute; inset: 0; overflow-y: auto; }
-.tabbar { flex: none; display: flex; border-top: 1px solid var(--line); background: #fff; padding-bottom: env(safe-area-inset-bottom); }
+.tabbar { flex: none; display: flex; border-top: 1px solid var(--line); background: var(--bg); padding-bottom: env(safe-area-inset-bottom); }
 .tabbar button { flex: 1; padding: 8px 0 7px; font-size: 11px; color: #9a9a9a; position: relative; display: flex; flex-direction: column; align-items: center; gap: 1px; }
 .tabbar button span { font-size: 21px; filter: grayscale(1) opacity(.55); }
 .tabbar button.on { color: var(--text); font-weight: 600; }
@@ -63,7 +75,7 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 /* ---------- lists ---------- */
 .sec-title { padding: 14px 18px 6px; font-size: 12px; color: var(--sub); display: flex; justify-content: space-between; }
 .row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 18px; text-align: left; }
-.row:active { background: #f3f3f3; }
+.row:active { background: var(--press); }
 .row .info { flex: 1; min-width: 0; }
 .row .nm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row .st { font-size: 12.5px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -85,11 +97,11 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 /* ---------- settings ---------- */
 .set-group { padding: 6px 18px 14px; }
 .set-group h3 { margin: 14px 0 8px; font-size: 13px; color: var(--sub); font-weight: 600; }
-.set-group input[type=text], .set-group select { width: 100%; padding: 11px 12px; border: 1px solid #ddd; border-radius: 10px; background: #fafafa; }
+.set-group input[type=text], .set-group select { width: 100%; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface2); color: var(--text); }
 .set-group .btns { display: flex; gap: 8px; margin-top: 8px; }
-.btn { padding: 10px 14px; border-radius: 10px; background: #f0f0f0; font-size: 13.5px; }
+.btn { padding: 10px 14px; border-radius: 10px; background: var(--btn); font-size: 13.5px; }
 .btn.danger { color: #c0392b; }
-.keyshow { font-family: ui-monospace, Consolas, monospace; padding: 11px 12px; background: #fafafa; border: 1px solid #ddd; border-radius: 10px; }
+.keyshow { font-family: ui-monospace, Consolas, monospace; padding: 11px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; }
 .note { font-size: 12px; color: var(--sub); margin: 6px 0 0; }
 
 /* ---------- chat room ---------- */
@@ -101,9 +113,9 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .chat-title { flex: 1; min-width: 0; padding: 0 4px; line-height: 1.2; }
 .chat-title b { display: block; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chat-title small { font-size: 11px; opacity: .6; }
-.menu { position: absolute; right: 10px; top: 48px; z-index: 5; background: #fff; border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.25); overflow: hidden; }
+.menu { position: absolute; right: 10px; top: 48px; z-index: 5; background: var(--bg); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.25); overflow: hidden; }
 .menu button { display: block; padding: 13px 18px; width: 100%; text-align: left; font-size: 14px; white-space: nowrap; }
-.menu button:active { background: #f1f1f1; }
+.menu button:active { background: var(--press); }
 .messages { flex: 1; min-height: 0; overflow-y: auto; padding: 6px 12px 12px; scroll-behavior: smooth; }
 .date { text-align: center; margin: 14px 0 10px; }
 .date span { display: inline-block; background: rgba(0,0,0,.18); color: #fff; font-size: 11.5px; padding: 3px 14px; border-radius: 12px; }
@@ -133,7 +145,7 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 
 .chips { flex: none; display: flex; gap: 6px; overflow-x: auto; padding: 4px 12px 8px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
-.chips button { flex: none; background: rgba(255,255,255,.9); padding: 7px 12px; border-radius: 16px; font-size: 13px; white-space: nowrap; }
+.chips button { flex: none; color: var(--chip-t); background: var(--chip); padding: 7px 12px; border-radius: 16px; font-size: 13px; white-space: nowrap; }
 .composer { flex: none; display: flex; align-items: flex-end; gap: 8px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); background: #fff; }
 .composer textarea { flex: 1; resize: none; max-height: 120px; border: 0; outline: none; background: #f2f2f2; border-radius: 18px; padding: 9px 14px; line-height: 1.4; }
 .composer #send { width: 38px; height: 38px; border-radius: 50%; background: #e5e5e5; color: #fff; font-size: 20px; font-weight: 700; flex: none; }
@@ -151,8 +163,8 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 #chat .date span { background: var(--pill); }
 #chat .composer { background: var(--comp); }
 #chat .composer textarea { background: var(--comp-in); color: var(--comp-t); }
-.menu { color: #191919; }
-.menu .sep { height: 1px; background: #eee; }
+.menu { color: var(--text); }
+.menu .sep { height: 1px; background: var(--line); }
 .menu .cur { font-weight: 700; }
 
 #chat[data-theme=map] { --b-them: #f6ecd0; --t-them: #3a2812; --b-me: #5a3d1c; --t-me: #f3e6c6; --who: #5b3f1c; --time: #6b4a22;
@@ -167,6 +179,13 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
   --top: #e2f5ea; --comp: #06180f; --comp-in: #15382a; --comp-t: #e2f5ea; --pill: rgba(255,255,255,.16); }
 #chat[data-theme=forest] { --b-them: rgba(226,238,222,.95); --t-them: #12261a; --b-me: #9be564; --t-me: #0f2410; --who: #b9d8b0; --time: #8fb48a;
   --top: #e6f4e0; --comp: #0b1a12; --comp-in: #1c3527; --comp-t: #e6f4e0; --pill: rgba(255,255,255,.18); }
+
+/* 다크모드: 기본(카카오톡) 배경의 대화창 색 */
+:root[data-mode=dark] #chat[data-theme=default]:not(.ink) { --b-them: #2f3b47; --t-them: #eceff3; --who: #aebdca; --time: #8fa0b0; --top: #eceff3;
+  --comp: #141c24; --comp-in: #25313d; --comp-t: #eceff3; --pill: rgba(255,255,255,.16); }
+
+/* 일기장 방은 다크모드에서도 양피지 느낌 유지 */
+:root[data-mode=dark] #chat.ink { --chip: rgba(255,255,255,.9); --chip-t: #191919; --comp: #d3bc88; --comp-in: #f1e5c2; --comp-t: #3a2812; }
 
 /* 톰 리들의 일기장: 양피지 + 잉크 */
 #chat.ink .messages, #chat.ink { background-color: #d8c49b; }

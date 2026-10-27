@@ -8,6 +8,13 @@
 <title>Magic Chat — 해리 포터 챗봇</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%84%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
+<script>
+  /* 깜빡임 방지: 저장된 화면 모드를 먼저 적용 */
+  try {
+    var m = (JSON.parse(localStorage.getItem('magicchat.v1') || '{}').mode) || 'auto';
+    document.documentElement.dataset.mode = m === 'dark' || (m === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  } catch (e) {}
+</script>
 </head>
 <body>
 <div id="app">
@@ -42,7 +49,7 @@
 
   <!-- 2) 메인 (친구 / 채팅 / 설정) -->
   <section id="main" class="screen hidden">
-    <header class="topbar"><h2 id="main-title">친구</h2></header>
+    <header class="topbar"><h2 id="main-title">친구</h2><button id="mode-btn" class="icon" aria-label="다크모드 전환"></button></header>
     <div class="tabs">
       <div id="tab-friends" class="tab"></div>
       <div id="tab-chats" class="tab hidden"></div>

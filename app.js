@@ -14,6 +14,18 @@ const safe = (fn, fallback) => { try { return fn(); } catch { return fallback; }
 let apiKey = safe(() => sessionStorage.getItem(KEY_SESSION) || localStorage.getItem(KEY_PERSIST) || '', '');
 let db = Object.assign({ nick: '마법사', model: '', models: [], rooms: {} },
   safe(() => JSON.parse(localStorage.getItem(DATA_KEY) || '{}'), {}));
+/* ---- 화면 모드: 자동(기기 설정) / 라이트 / 다크 ---- */
+const darkMQ = matchMedia('(prefers-color-scheme: dark)');
+function applyMode() {
+  const m = db.mode || 'auto';
+  const dark = m === 'dark' || (m === 'auto' && darkMQ.matches);
+  document.documentElement.dataset.mode = dark ? 'dark' : 'light';
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', dark ? '#11171d' : '#201410');
+  const btn = document.querySelector('#mode-btn');
+  if (btn) btn.textContent = dark ? '☀️' : '🌙';
+}
+darkMQ.addEventListener?.('change', applyMode);
+
 const gens = {};                  // roomId -> AbortController (진행 중인 응답)
 let currentRoom = null;
 let currentTab = 'friends';
@@ -266,6 +278,9 @@ function renderSettings() {
     <h3>닉네임</h3>
     <input type="text" id="s-nick" maxlength="16" value="${esc(db.nick)}">
 
+    <h3>화면 모드</h3>
+    <select id="s-mode">${[['auto', '자동 (기기 설정)'], ['light', '라이트'], ['dark', '다크']].map(([v, n]) => `<option value="${v}" ${(db.mode || 'auto') === v ? 'selected' : ''}>${n}</option>`).join('')}</select>
+
     <h3>Groq API 키</h3>
     <div class="keyshow">${apiKey ? esc(maskKey(apiKey)) : '(없음)'}</div>
     <div class="btns"><button class="btn" id="s-newkey">키 변경</button><button class="btn danger" id="s-delkey">키 삭제</button></div>
@@ -282,6 +297,7 @@ function renderSettings() {
     <p class="note">대화 내용은 이 기기의 브라우저에만 저장돼요.</p>
   </div>`;
   $('#s-nick').onchange = (e) => { db.nick = e.target.value.trim() || '마법사'; save(); toast('닉네임을 저장했어요'); };
+  $('#s-mode').onchange = (e) => { db.mode = e.target.value; save(); applyMode(); };
   $('#s-model').onchange = (e) => { db.model = e.target.value; db.modelPicked = true; save(); toast('모델을 변경했어요'); };
   $('#s-test').onclick = async () => {
     const out = $('#s-result'); out.textContent = '테스트 중…';
@@ -451,6 +467,12 @@ $('#m-clear').onclick = () => {
 $('#m-settings').onclick = () => { currentRoom = null; currentTab = 'settings'; enterMain(); };
 
 /* ================= Boot ================= */
+$('#mode-btn').onclick = () => {
+  db.mode = document.documentElement.dataset.mode === 'dark' ? 'light' : 'dark';
+  save(); applyMode();
+  if (currentTab === 'settings') renderSettings();
+};
+applyMode();
 if (apiKey) {
   enterMain();
   if (!db.models.length || !db.modelPicked) loadModels().then(() => currentTab === 'settings' && renderSettings()).catch(() => {});
